@@ -10,6 +10,5 @@ RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernete
 # calicoctl
 RUN curl -o /usr/local/bin/calicoctl -O -L  https://github.com/projectcalico/calicoctl/releases/download/v3.16.5/calicoctl && chmod +x /usr/local/bin/calicoctl
 
-ENTRYPOINT ["/bin/bash","-c"]
-CMD ["bash"]
+CMD ["tail", "-f", "/dev/null"]
 
