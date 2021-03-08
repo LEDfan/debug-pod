@@ -3,7 +3,7 @@ FROM mendhak/http-https-echo AS builder
 FROM ubuntu:focal
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install  --no-install-recommends -y curl less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping ncdu rsync postgresql-client git tmux awscli nodejs && \
+    DEBIAN_FRONTEND=noninteractive apt-get install  --no-install-recommends -y curl less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping ncdu rsync postgresql-client git tmux awscli nodejs tree && \
     rm -rf /var/lib/apt/lists/* && \
     curl -o /usr/local/sbin/kubectl -OL https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x /usr/local/sbin/kubectl && \
