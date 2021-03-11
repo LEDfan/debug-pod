@@ -1,4 +1,4 @@
-FROM mendhak/http-https-echo AS builder
+FROM mendhak/http-https-echo:18 AS builder
 
 FROM ubuntu:focal
 
@@ -13,15 +13,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     chmod +x /usr/local/bin/cloudsend.sh
 
 COPY --from=builder /app /app
+ADD start_server.sh /start_server.sh
 
 ENV HTTP_PORT=8080 HTTPS_PORT=8443
 
 EXPOSE $HTTP_PORT
 EXPOSE $HTTPS_PORT
 
-WORKDIR /app
+WORKDIR /
 
-USER 1000
-
-CMD ["node", "./index.js"]
+CMD ["/start_server.sh"]
 
