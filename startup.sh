@@ -18,22 +18,5 @@ function wait_for_process () {
 }
 
 INFO "Starting supervisor"
-/usr/bin/supervisord -n >> /dev/null 2>&1 &
+/usr/bin/supervisord -n
 
-INFO "Waiting for processes to be running"
-processes=(dockerd node)
-
-for process in "${processes[@]}"; do
-    wait_for_process "$process"
-    if [ $? -ne 0 ]; then
-        ERROR "$process is not running after max time"
-        exit 1
-    else
-        INFO "$process is running"
-    fi
-done
-
-INFO "See /var/log/webserver.out.log for the debug webserver output"
-
-# Wait processes to be running
-/bin/bash
