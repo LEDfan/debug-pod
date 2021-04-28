@@ -12,6 +12,7 @@ Thanks to [iptizer](https://github.com/iptizer/swiss) for the idea!
  - [cloudsend.sh](https://github.com/tavinus/cloudsend.sh)
  - kubectl
  - calicoctl
- - bunch of stand Linux tools
+ - python3 + pip3 + [plumbum](https://plumbum.readthedocs.io/en/latest/index.html)
+ - bunch of standard Linux tools
 
 
