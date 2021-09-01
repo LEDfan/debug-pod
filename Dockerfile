@@ -10,7 +10,7 @@ ENV DOCKER_CHANNEL=stable \
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         curl  less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping \
-        ncdu rsync postgresql-client git tmux awscli nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
+        ncdu rsync postgresql-client redis-tools git tmux awscli nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
         socat psmisc && \
     pip3 install plumbum && \
     rm -rf /var/lib/apt/lists/* && \
@@ -54,11 +54,10 @@ RUN set -eux; \
 	dockerd --version; \
 	docker --version
 
-COPY modprobe startup.sh /usr/local/bin/
+COPY modprobe /usr/local/bin/
 COPY supervisor/ /etc/supervisor/conf.d/
-COPY logger.sh /opt/bash-utils/logger.sh
 
-RUN chmod +x /usr/local/bin/startup.sh /usr/local/bin/modprobe
+RUN chmod +x /usr/local/bin/modprobe
 
 # Webserver installation
 COPY --from=builder /app /app
@@ -70,4 +69,4 @@ EXPOSE $HTTPS_PORT
 
 WORKDIR /
 
-CMD ["startup.sh"]
+CMD ["/usr/bin/supervisord", "-n"]
