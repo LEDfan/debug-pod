@@ -14,5 +14,6 @@ Thanks to [iptizer](https://github.com/iptizer/swiss) for the idea!
  - calicoctl
  - python3 + pip3 + [plumbum](https://plumbum.readthedocs.io/en/latest/index.html)
  - bunch of standard Linux tools
+ - [stern](https://github.com/wercker/stern)
 
 

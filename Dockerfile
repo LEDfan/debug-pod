@@ -3,9 +3,8 @@ FROM mendhak/http-https-echo:18 AS builder
 FROM ubuntu:focal
 
 ENV DOCKER_CHANNEL=stable \
-    DOCKER_VERSION=19.03.11 \
-    DOCKER_COMPOSE_VERSION=1.26.0 \
-    DEBUG=fals
+    DOCKER_VERSION=20.10.11 \
+    DEBUG=false
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -14,14 +13,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         socat psmisc && \
     pip3 install plumbum && \
     rm -rf /var/lib/apt/lists/* && \
-    curl -o /usr/local/sbin/kubectl -L https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
-    chmod +x /usr/local/sbin/kubectl && \
+    curl -o /usr/local/bin/kubectl -L https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
+    chmod +x /usr/local/bin/kubectl && \
     curl -o /usr/local/bin/calicoctl -L  https://github.com/projectcalico/calicoctl/releases/download/v3.16.5/calicoctl && \
     chmod +x /usr/local/bin/calicoctl && \
     curl -o /usr/local/bin/cloudsend.sh -L https://raw.githubusercontent.com/tavinus/cloudsend.sh/master/cloudsend.sh && \
     chmod +x /usr/local/bin/cloudsend.sh && \
     curl -o - -L https://nexus.openanalytics.eu/repository/releases/eu/openanalytics/rdepot/rdepot-cli/1.4.2/rdepot.gz | gunzip > /usr/local/bin/rdepot && \
-    chmod +x /usr/local/bin/rdepot
+    chmod +x /usr/local/bin/rdepot && \
+    curl -o /usr/local/bin/stern -L https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_amd64  && \
+    chmod +x /usr/local/bin/stern
 
 # Docker installation
 RUN set -eux; \
