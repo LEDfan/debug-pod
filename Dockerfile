@@ -9,9 +9,11 @@ ENV DOCKER_CHANNEL=stable \
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         curl  less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping \
-        ncdu rsync postgresql-client redis-tools git tmux awscli nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
-        socat psmisc && \
-    pip3 install plumbum && \
+        ncdu rsync postgresql-client redis-tools git tmux nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
+        socat psmisc groff && \
+    pip3 install plumbum --upgrade --user && \
+    pip3 install awscli --upgrade --user && \
+    pip3 install git-remote-codecommit --upgrade --user && \
     rm -rf /var/lib/apt/lists/* && \
     curl -o /usr/local/bin/kubectl -L https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x /usr/local/bin/kubectl && \
@@ -64,6 +66,7 @@ RUN chmod +x /usr/local/bin/modprobe
 COPY --from=builder /app /app
 
 ENV HTTP_PORT=8080 HTTPS_PORT=8443
+ENV PATH="/root/.local/bin:${PATH}"
 
 EXPOSE $HTTP_PORT
 EXPOSE $HTTPS_PORT
