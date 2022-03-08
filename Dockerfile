@@ -13,7 +13,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         socat psmisc groff && \
     pip3 install plumbum --upgrade --user && \
     pip3 install awscli --upgrade --user && \
+    pip3 install boto3 --upgrade --user && \
+    pip3 install jinja2 --upgrade --user && \
     pip3 install git-remote-codecommit --upgrade --user && \
+    pip3 install kubernetes --upgrade --user && \
     rm -rf /var/lib/apt/lists/* && \
     curl -o /usr/local/bin/kubectl -L https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x /usr/local/bin/kubectl && \
