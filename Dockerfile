@@ -10,7 +10,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         curl  less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping \
         ncdu rsync postgresql-client redis-tools git tmux nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
-        socat psmisc groff && \
+        socat psmisc groff stress-ng htop apt-transport-https gnupg lsb-release && \
     pip3 install plumbum --upgrade --user && \
     pip3 install awscli --upgrade --user && \
     pip3 install boto3 --upgrade --user && \
@@ -28,6 +28,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     chmod +x /usr/local/bin/rdepot && \
     curl -o /usr/local/bin/stern -L https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_amd64  && \
     chmod +x /usr/local/bin/stern
+
+
+RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add - && \
+    echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y trivy
 
 # Docker installation
 RUN set -eux; \
