@@ -8,8 +8,9 @@ ENV DOCKER_CHANNEL=stable \
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-        curl  less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping \
-        ncdu rsync postgresql-client redis-tools git tmux nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
+        build-essential pkg-config libssl-dev tcl libjemalloc-dev \
+        curl less dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping \
+        ncdu rsync postgresql-client git tmux nodejs tree iptables supervisor iproute2 telnet python3 python3-pip \
         socat psmisc groff stress-ng htop apt-transport-https gnupg lsb-release && \
     pip3 install plumbum --upgrade --user && \
     pip3 install awscli --upgrade --user && \
@@ -34,6 +35,16 @@ RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-ke
     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y trivy
+
+# Redis-cli
+
+RUN cd tmp && \
+    wget https://download.redis.io/redis-stable.tar.gz && \
+    tar xzf redis-stable.tar.gz && \
+    cd redis-stable && \
+    make distclean && \
+    make BUILD_TLS=yes && \
+    cp ./src/redis-cli /usr/local/bin/redis-cli
 
 # Docker installation
 RUN set -eux; \
